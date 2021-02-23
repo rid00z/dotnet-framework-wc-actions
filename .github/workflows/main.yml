@@ -33,16 +33,33 @@ jobs:
     # Build and push your image to Azure Container Registry 
     - name: Build and Push container to ACR
       run: |
-        docker build --file=taskapp/taskapp/Dockerfile -t ${{ secrets.CONTAINER_REGISTRY_NAME }}/${{ secrets.IMAGE_NAME }}:latest .
-        docker push ${{ secrets.CONTAINER_REGISTRY_NAME }}/${{ secrets.IMAGE_NAME }}:latest  
+        docker build --file=taskapp/taskapp/Dockerfile -t ${{ secrets.CONTAINER_REGISTRY_NAME }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }} .
+        docker push ${{ secrets.CONTAINER_REGISTRY_NAME }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }}  
        
     # Deploy your container to App Service 
-#    - name: Deploy Container to Azure App Service
-#      uses: azure/webapps-deploy@v2
-#      with:
-#        app-name: ${{ secrets.APP_NAME }}
-#        images: ${{ secrets.CONTAINER_REGISTRY_NAME }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }}
-        
+    - name: Deploy Container to Azure App Service
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ secrets.APP_NAME }}
+        images: ${{ secrets.CONTAINER_REGISTRY_NAME }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }}
+        app-settings-json: |
+         [
+             {
+                 "name": "DOCKER_REGISTRY_SERVER_PASSWORD",
+                 "value": "${{ secrets.CONTAINER_REGISTRY_PASSWORD }}",
+                 "slotSetting": false
+             },
+             {
+                 "name": "DOCKER_REGISTRY_SERVER_URL",
+                 "value": "${{ secrets.CONTAINER_REGISTRY_NAME }}",
+                 "slotSetting": false
+             },
+             {
+                 "name": "DOCKER_REGISTRY_SERVER_USERNAME",
+                 "value": "${{ secrets.CONTAINER_REGISTRY_USERNAME }}",
+                 "slotSetting": false
+             }
+         ]
     
     # Deploy a dacpac file to your SQL server
 #    - name: Azure SQL Deploy
