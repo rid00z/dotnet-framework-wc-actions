@@ -11,10 +11,10 @@ jobs:
   build-and-deploy-to-azure:
     runs-on: windows-latest
     
-    steps:
-      
+    steps:    
+        
     # Checks out repository so your workflow can access it
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v1    
     
     - name: App Settings Variable Substitution
       uses: microsoft/variable-substitution@v1
