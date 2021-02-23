@@ -16,11 +16,13 @@ jobs:
     # Checks out repository so your workflow can access it
     - uses: actions/checkout@v1    
     
-    - name: App Settings Variable Substitution
-      uses: Mudlet/xmlstarlet-action@master
+    - name: Set app insights
+      uses: rvolo/xml-replace-action@v0.2
       with:
-        args: ed --update "//ApplicationInsights/InstrumentationKey" --value '${{ secrets.InstrumentationKey }}' taskapp/taskapp/ApplicationInsights.config
-    
+        filepath: "taskapp/taskapp/ApplicationInsights.config"
+        xpath: "//ApplicationInsights/InstrumentationKey/text()"
+        replace: "${{ secrets.InstrumentationKey }}"
+
     # Authenticate a Service Principal to deploy to your Web App
     - name: Azure Service Principal Authentication
       uses: azure/login@v1
