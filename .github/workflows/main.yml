@@ -21,7 +21,7 @@ jobs:
       with:
         files: 'taskapp/taskapp/ApplicationInsights.config'
       env:
-        ApplicationInsights.InstrumentationKey: ${{ secrets.InstrumentationKey }}
+        InstrumentationKey: ${{ secrets.InstrumentationKey }}
     
     # Authenticate a Service Principal to deploy to your Web App
     - name: Azure Service Principal Authentication
