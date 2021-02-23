@@ -20,7 +20,7 @@ jobs:
       uses: rvolo/xml-replace-action@v0.2
       with:
         filepath: "taskapp/taskapp/ApplicationInsights.config"
-        xpath: "//ApplicationInsights/InstrumentationKey/text()"
+        xpath: "//ApplicationInsights/ConnectionString/text()"
         replace: "${{ secrets.InstrumentationKey }}"
 
     # Authenticate a Service Principal to deploy to your Web App
