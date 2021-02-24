@@ -49,6 +49,10 @@ a.navbar-brand {
     }
 
 
+.btn-outline-dark {
+    color: red;
+}
+
 .btn-primary {
     color: #fff;
     background-color: red;
