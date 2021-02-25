@@ -49,7 +49,6 @@ jobs:
       with:
         app-name: ${{ secrets.APP_NAME }}
         images: ${{ secrets.CONTAINER_REGISTRY_NAME }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }}
-        slot-name: staging
         app-settings-json: |
          [
              {
